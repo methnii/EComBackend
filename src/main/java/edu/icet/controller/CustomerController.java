@@ -26,7 +26,7 @@ public class CustomerController {
     }
 
     @PutMapping("/update-customer")
-    public void upadateCustomer(@RequestBody Customer customer){
+    public void updateCustomer(@RequestBody Customer customer){
          service.updateCustomer(customer);
     }
 

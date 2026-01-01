@@ -49,8 +49,11 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer searchCustomerById(Integer id) {
-        return null;
+        CustomerEntity entity = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Customer not found with ID: " + id));
+        return mapper.convertValue(entity, Customer.class);
     }
+
 
     @Override
     public List<Customer> getAll() {
