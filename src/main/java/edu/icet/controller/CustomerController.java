@@ -4,7 +4,6 @@ import edu.icet.dto.Customer;
 import edu.icet.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController

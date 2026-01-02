@@ -14,12 +14,13 @@ import java.util.List;
 @RequiredArgsConstructor
 
 
-public class CustomerServiceImpl implements CustomerService {
+public class  CustomerServiceImpl implements CustomerService {
     final CustomerRepository repository;
     final ObjectMapper mapper;
 
     @Override
     public Customer addCustomer(Customer customer) {
+        customer.setId(null);
         CustomerEntity customerEntity = mapper.convertValue(customer, CustomerEntity.class);
         CustomerEntity savedEntity = repository.save(customerEntity);
         return mapper.convertValue(savedEntity, Customer.class);
@@ -35,7 +36,6 @@ public class CustomerServiceImpl implements CustomerService {
         existingEntity.setId(customer.getId());
         existingEntity.setName(customer.getName());
         existingEntity.setAddress(customer.getAddress());
-        existingEntity.setSalary(customer.getSalary());
 
         CustomerEntity updatedEntity = repository.save(existingEntity);
         return mapper.convertValue(updatedEntity, Customer.class);

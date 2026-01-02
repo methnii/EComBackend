@@ -8,8 +8,10 @@ import lombok.*;
 public class Customer {
     private Integer id;
     private String name;
+    private String email; // optional for login
+    private String password; // optional for login
     private String address;
-    private Double salary;
 
 }
+
 
