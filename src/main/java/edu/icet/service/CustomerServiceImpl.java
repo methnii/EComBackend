@@ -6,15 +6,13 @@ import edu.icet.entity.CustomerEntity;
 import edu.icet.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 
-
-public class  CustomerServiceImpl implements CustomerService {
+public class CustomerServiceImpl implements CustomerService {
     final CustomerRepository repository;
     final ObjectMapper mapper;
 
@@ -57,8 +55,8 @@ public class  CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<Customer> getAll() {
-        List <CustomerEntity> entities = repository.findAll();
-        List<Customer> customerList=new ArrayList<>();
+        List<CustomerEntity> entities = repository.findAll();
+        List<Customer> customerList = new ArrayList<>();
         entities.forEach(customerEntity ->
                 customerList.add(
                         mapper.convertValue(
@@ -67,6 +65,4 @@ public class  CustomerServiceImpl implements CustomerService {
                 ));
         return customerList;
     }
-
-
 }

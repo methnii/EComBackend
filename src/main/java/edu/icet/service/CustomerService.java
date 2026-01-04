@@ -10,6 +10,4 @@ public interface CustomerService {
     Boolean deleteCustomer(Integer id);
     Customer searchCustomerById(Integer id);
     List<Customer> getAll();
-
-
 }
