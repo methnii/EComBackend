@@ -12,7 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomerController {
 
-   private final CustomerService service;
+    private final CustomerService service;
 
     @PostMapping("/add-customer")
     public void addCustomer(@RequestBody Customer customer){
@@ -26,7 +26,7 @@ public class CustomerController {
 
     @PutMapping("/update-customer")
     public void updateCustomer(@RequestBody Customer customer){
-         service.updateCustomer(customer);
+        service.updateCustomer(customer);
     }
 
     @DeleteMapping("/delete/{id}")
@@ -36,6 +36,6 @@ public class CustomerController {
 
     @GetMapping("/searchById/{id}")
     public Customer searchCustomerById (@PathVariable Integer id){
-       return service.searchCustomerById(id);
+        return service.searchCustomerById(id);
     }
 }
