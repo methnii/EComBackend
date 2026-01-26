@@ -34,8 +34,8 @@ public class OrderEntity {
 
     private LocalDateTime orderDate;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL ,orphanRemoval = true)
-    @JsonManagedReference
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItemEntity> items;
+
 
 }

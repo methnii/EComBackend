@@ -13,9 +13,12 @@ import java.util.List;
 public class Order {
     private Integer id;
     private Integer customerId;
+    private String customerName;
+
     private List<OrderItem> items;
     private String status; // PROCESSING, DELIVERING, DELIVERED
     private Double totalPrice;
+    private String orderDate;
 
 
 }
