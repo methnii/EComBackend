@@ -2,6 +2,7 @@ package edu.icet.service;
 
 import edu.icet.dto.Order;
 import edu.icet.dto.OrderItem;
+import edu.icet.dto.Product;
 import edu.icet.entity.*;
 import edu.icet.mapper.OrderMapper;
 import edu.icet.repository.CustomerRepository;
@@ -63,7 +64,28 @@ public class OrderServiceImpl implements OrderService {
         order.setItems(items);
 
         OrderEntity saved = orderRepository.save(order);
-        return orderMapper.toDTO(saved);
+
+        // Convert to DTO and populate product details
+        Order savedOrderDTO = orderMapper.toDTO(saved);
+
+        // Populate product details for each item
+        for (int i = 0; i < saved.getItems().size(); i++) {
+            OrderItemEntity itemEntity = saved.getItems().get(i);
+            OrderItem itemDTO = savedOrderDTO.getItems().get(i);
+
+            Product productDTO = new Product();
+            productDTO.setId(itemEntity.getProduct().getId());
+            productDTO.setName(itemEntity.getProduct().getName());
+            productDTO.setDescription(itemEntity.getProduct().getDescription());
+            productDTO.setPrice(itemEntity.getProduct().getPrice());
+            productDTO.setStock(itemEntity.getProduct().getStock());
+            productDTO.setCategory(itemEntity.getProduct().getCategory());
+            productDTO.setImageUrl(itemEntity.getProduct().getImageUrl());
+
+            itemDTO.setProduct(productDTO);
+        }
+
+        return savedOrderDTO;
     }
 
     @Override
@@ -72,30 +94,62 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new RuntimeException("Order not found"));
 
         order.setStatus(OrderStatus.valueOf(status.toUpperCase()));
-        return orderMapper.toDTO(orderRepository.save(order));
+        OrderEntity saved = orderRepository.save(order);
+
+        Order orderDTO = orderMapper.toDTO(saved);
+        populateProductDetails(orderDTO, saved);
+        return orderDTO;
     }
 
     @Override
     public List<Order> getOrdersByCustomer(Integer customerId) {
-        return orderRepository.findByCustomer_Id(customerId)
-                .stream()
-                .map(orderMapper::toDTO)
+        List<OrderEntity> entities = orderRepository.findByCustomer_Id(customerId);
+        return entities.stream()
+                .map(entity -> {
+                    Order orderDTO = orderMapper.toDTO(entity);
+                    populateProductDetails(orderDTO, entity);
+                    return orderDTO;
+                })
                 .toList();
     }
 
     @Override
     public List<Order> getAllOrders() {
-        return orderRepository.findAll()
-                .stream()
-                .map(orderMapper::toDTO)
+        List<OrderEntity> entities = orderRepository.findAll();
+        return entities.stream()
+                .map(entity -> {
+                    Order orderDTO = orderMapper.toDTO(entity);
+                    populateProductDetails(orderDTO, entity);
+                    return orderDTO;
+                })
                 .toList();
     }
 
     @Override
     public Order getOrderById(Integer id) {
-        return orderMapper.toDTO(
-                orderRepository.findById(id)
-                        .orElseThrow(() -> new RuntimeException("Order not found"))
-        );
+        OrderEntity entity = orderRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        Order orderDTO = orderMapper.toDTO(entity);
+        populateProductDetails(orderDTO, entity);
+        return orderDTO;
+    }
+
+    private void populateProductDetails(Order orderDTO, OrderEntity entity) {
+        for (int i = 0; i < entity.getItems().size(); i++) {
+            OrderItemEntity itemEntity = entity.getItems().get(i);
+            OrderItem itemDTO = orderDTO.getItems().get(i);
+
+            Product productDTO = new Product();
+            productDTO.setId(itemEntity.getProduct().getId());
+            productDTO.setName(itemEntity.getProduct().getName());
+            productDTO.setDescription(itemEntity.getProduct().getDescription());
+            productDTO.setPrice(itemEntity.getProduct().getPrice());
+            productDTO.setStock(itemEntity.getProduct().getStock());
+            productDTO.setCategory(itemEntity.getProduct().getCategory());
+            productDTO.setImageUrl(itemEntity.getProduct().getImageUrl());
+
+            itemDTO.setProduct(productDTO);
+        }
     }
 }

@@ -20,5 +20,7 @@ public class ProductEntity {
     private Double price;
     private Integer stock;
     private String category;
-}
 
+    @Column(name = "image_url", length = 5000)
+    private String imageUrl; // Add this field
+}

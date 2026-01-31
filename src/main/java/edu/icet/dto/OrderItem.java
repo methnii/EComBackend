@@ -8,7 +8,6 @@ import lombok.*;
 public class OrderItem {
     private Integer productId;
     private Integer quantity;
-    private Double price; // product price * quantity
-
-
+    private Double price;
+    private Product product; // Add this field to include full product details
 }

@@ -1,6 +1,5 @@
 package edu.icet.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,5 +14,5 @@ public class Product {
     private Double price;
     private Integer stock;
     private String category;
+    private String imageUrl; // Add this field
 }
-

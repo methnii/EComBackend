@@ -30,6 +30,8 @@ public class ProductServiceImpl implements ProductService {
         existing.setDescription(product.getDescription());
         existing.setPrice(product.getPrice());
         existing.setStock(product.getStock());
+        existing.setCategory(product.getCategory());        // Add this line
+        existing.setImageUrl(product.getImageUrl());        // Add this line
 
         ProductEntity updated = repository.save(existing);
         return mapper.convertValue(updated, Product.class);
